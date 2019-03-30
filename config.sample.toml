@@ -1,0 +1,12 @@
+[[TwitterAccounts]]
+ConsumerKey = "never"
+ConsumerSecret = "gonna"
+AccessToken = "give"
+AccessSecret = "you"
+TrackUsers = [ "rsroobre" ]
+
+[[MastodonAccounts]]
+InstanceName = "up"
+AppID = "never"
+AppSecret = "gonna"
+UserToken = "let"
