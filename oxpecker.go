@@ -148,7 +148,7 @@ func (ox *Oxpecker) Run() error {
 	for tweet := range multichan {
 		for _, elephant := range ox.elephants {
 			_, err := elephant.PostStatus(madon.PostStatusParams{
-				Text:       tweet.Text,
+				Text:       tweet.FullText,
 				Visibility: "public",
 			})
 
