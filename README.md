@@ -16,6 +16,7 @@ It currently supports reading from multiple twitter users (also through multiple
 * [ ] Posting also media from Twitter to Mastodon
 * [ ] More robust behavior
   * [ ] Retry any of the accounts on failure
+* [ ] Allow interactive login instead of relying on config-defined tokens
 
 ### Future work
 

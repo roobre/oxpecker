@@ -8,7 +8,7 @@ import (
 
 func main() {
 	if len(os.Args) < 2 {
-		_, _ = fmt.Fprintf(os.Stderr, "Usage: %s <path/to/config>", os.Args[0])
+		_, _ = fmt.Fprintf(os.Stderr, "Usage: %s <path/to/config>\n", os.Args[0])
 		os.Exit(1)
 	}
 
