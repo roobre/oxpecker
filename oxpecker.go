@@ -136,6 +136,10 @@ func (ox *Oxpecker) Run() error {
 					continue
 				}
 
+				if tweet.RetweetedStatus != nil {
+					continue
+				}
+
 				multichan <- tweet
 			}
 		}()
