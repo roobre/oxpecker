@@ -147,8 +147,8 @@ func (ox *Oxpecker) Run() error {
 
 	for tweet := range multichan {
 		text := tweet.Text
-		if tweet.FullText != "" {
-			text = tweet.FullText
+		if tweet.Truncated {
+			text = tweet.ExtendedTweet.FullText
 		}
 
 		for _, elephant := range ox.elephants {
