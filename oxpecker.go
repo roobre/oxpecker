@@ -35,6 +35,26 @@ type Elephant struct {
 	postMap map[int64]int64
 }
 
+func (e *Elephant) Mirror(tweet *twitter.Tweet) error {
+	text := tweet.Text
+	if tweet.Truncated {
+		text = tweet.ExtendedTweet.FullText
+	}
+
+	status, err := e.PostStatus(madon.PostStatusParams{
+		Text:       text,
+		Visibility: "public",
+		InReplyTo:  e.postMap[tweet.InReplyToStatusID],
+	})
+
+	if err != nil {
+		return err
+	}
+
+	e.postMap[tweet.ID] = status.ID
+	return nil
+}
+
 type Oxpecker struct {
 	birds []struct {
 		client *twitter.Client
@@ -160,23 +180,11 @@ func (ox *Oxpecker) Run() error {
 	}
 
 	for tweet := range multichan {
-		text := tweet.Text
-		if tweet.Truncated {
-			text = tweet.ExtendedTweet.FullText
-		}
-
 		for _, elephant := range ox.elephants {
-			status, err := elephant.PostStatus(madon.PostStatusParams{
-				Text:       text,
-				Visibility: "public",
-				InReplyTo:  elephant.postMap[tweet.InReplyToStatusID],
-			})
+			err := elephant.Mirror(tweet)
 			if err != nil {
 				log.Printf("error posting tweet %s to mastodon: %s", tweet.IDStr, err.Error())
-				continue
 			}
-
-			elephant.postMap[tweet.ID] = status.ID
 		}
 	}
 
