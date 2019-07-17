@@ -2,12 +2,13 @@ package oxpecker
 
 import (
 	"errors"
+	"log"
+	"strings"
+
 	"github.com/BurntSushi/toml"
 	"github.com/McKael/madon"
 	"github.com/dghubble/go-twitter/twitter"
 	"github.com/dghubble/oauth1"
-	"log"
-	"strings"
 )
 
 const appName = "Oxpecker"
@@ -133,6 +134,11 @@ func (ox *Oxpecker) Run() error {
 
 				if (strings.HasPrefix(tweet.Text, "@") || tweet.InReplyToStatusIDStr != "") && tweet.InReplyToUserIDStr != tweet.User.IDStr {
 					log.Printf("Tweet %s is a reply, skipping", tweet.IDStr)
+					continue
+				}
+
+				if tweet.QuotedStatusID != 0 {
+					log.Printf("Tweet %s is a quote, skipping", tweet.IDStr)
 					continue
 				}
 
