@@ -30,12 +30,17 @@ type Config struct {
 	}
 }
 
+type Elephant struct {
+	*madon.Client
+	postMap map[int64]int64
+}
+
 type Oxpecker struct {
 	birds []struct {
 		client *twitter.Client
 		track  []string
 	}
-	elephants []*madon.Client
+	elephants []Elephant
 }
 
 func New(c *Config) (*Oxpecker, error) {
@@ -72,7 +77,10 @@ func New(c *Config) (*Oxpecker, error) {
 			log.Print("error building mastodon client: " + err.Error())
 			continue
 		}
-		ox.elephants = append(ox.elephants, client)
+		ox.elephants = append(ox.elephants, Elephant{
+			Client:  client,
+			postMap: map[int64]int64{},
+		})
 	}
 
 	if len(ox.elephants) == 0 {
@@ -158,14 +166,17 @@ func (ox *Oxpecker) Run() error {
 		}
 
 		for _, elephant := range ox.elephants {
-			_, err := elephant.PostStatus(madon.PostStatusParams{
+			status, err := elephant.PostStatus(madon.PostStatusParams{
 				Text:       text,
 				Visibility: "public",
+				InReplyTo:  elephant.postMap[tweet.InReplyToStatusID],
 			})
-
 			if err != nil {
 				log.Printf("error posting tweet %s to mastodon: %s", tweet.IDStr, err.Error())
+				continue
 			}
+
+			elephant.postMap[tweet.ID] = status.ID
 		}
 	}
 
