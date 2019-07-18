@@ -36,6 +36,8 @@ type Elephant struct {
 }
 
 func (e *Elephant) Mirror(tweet *twitter.Tweet) error {
+	tweet = ReplaceTweetURLs(tweet)
+
 	text := tweet.Text
 	if tweet.Truncated {
 		text = tweet.ExtendedTweet.FullText
