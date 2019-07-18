@@ -8,19 +8,20 @@ It currently supports reading from multiple twitter users (also through multiple
 
 `./oxpecker <path/to/config/file.toml>`
 
-## Roadmap
+## Features
+
+* [x] N:M Twitter to Mastodon echoing
+* [x] Keep track of threads and try to replicate them on the other side
 
 ### Near future
 
-* [x] N:M Twitter to Mastodon echoing
-* [ ] Posting also media from Twitter to Mastodon
+* [ ] Post also media from Twitter to Mastodon ([Blocker](https://github.com/McKael/madon/issues/6))
 * [ ] More robust behavior
   * [ ] Retry any of the accounts on failure
+
+### Far future
+
 * [ ] Allow interactive login instead of relying on config-defined tokens
-
-### Future work
-
-* [ ] Keep track of threads and try to replicate them on the other side
-* [ ] N:M Mastodon to Twitter
-* [ ] Media from Mastodon to Twiiter 
+* [ ] Posts from Mastodon to Twitter
+    * [ ] Media from Mastodon to Twiiter 
 
