@@ -30,33 +30,6 @@ type Config struct {
 	}
 }
 
-type Elephant struct {
-	*madon.Client
-	postMap map[int64]int64
-}
-
-func (e *Elephant) Mirror(tweet *twitter.Tweet) error {
-	tweet = ReplaceTweetURLs(tweet)
-
-	text := tweet.Text
-	if tweet.Truncated {
-		text = tweet.ExtendedTweet.FullText
-	}
-
-	status, err := e.PostStatus(madon.PostStatusParams{
-		Text:       text,
-		Visibility: "public",
-		InReplyTo:  e.postMap[tweet.InReplyToStatusID],
-	})
-
-	if err != nil {
-		return err
-	}
-
-	e.postMap[tweet.ID] = status.ID
-	return nil
-}
-
 type Oxpecker struct {
 	birds []struct {
 		client *twitter.Client
